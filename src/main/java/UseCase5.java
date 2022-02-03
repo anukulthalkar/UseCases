@@ -30,5 +30,7 @@ public class UseCase5 {
                 agg(count(products.col("product_category_id"))).
                 orderBy(join1.col("department_id"));
         result.show(100);
+        result.coalesce(1).write().option("header",true).mode("overwrite").csv("C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\outputs\\UseCase5");
+
     }
 }

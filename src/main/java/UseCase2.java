@@ -26,6 +26,7 @@ public class UseCase2 {
         orders.show();
         customers.show();
         result.show();
+        result.coalesce(1).write().option("header",true).mode("overwrite").csv("C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\outputs\\UseCase2");
 
     }
 }

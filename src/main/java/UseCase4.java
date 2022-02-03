@@ -40,7 +40,7 @@ public class UseCase4 {
                     orderBy(categories.col("category_id"));
 
             result.show(100);
-
+            result.coalesce(1).write().option("header",true).mode("overwrite").csv("C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\outputs\\UseCase4");
     }
 
 }

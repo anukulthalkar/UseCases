@@ -35,6 +35,8 @@ public class UseCase3 {
                 agg(coalesce(round(sum(order_items.col("order_item_subtotal")),2)).alias("customer_revenue")).
                 orderBy(join1.col("customer_id"),col("customer_revenue"));
         result.show();
+        result.coalesce(1).write().option("header",true).mode("overwrite").csv("C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\outputs\\UseCase3");
+
 
 
 
