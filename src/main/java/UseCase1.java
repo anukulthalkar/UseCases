@@ -26,7 +26,7 @@ public class UseCase1 {
                         customers.col("customer_fname"),
                         customers.col("customer_lname")).
                 agg(count(orders.col("order_customer_id")).alias("customer_order_count")).
-                orderBy(customers.col("customer_id"),col("customer_order_count").desc());
+                orderBy(col("customer_order_count").desc(),customers.col("customer_id"));
         //orders.show();
         //customers.show();
         result.show();
