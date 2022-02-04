@@ -1,3 +1,4 @@
+import org.apache.log4j.Logger;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -13,8 +14,14 @@ Get the revenue generated for each category for the month of 2014 January
 * Consider only COMPLETE and CLOSED orders
 */
 public class UseCase4 {
-    public static void main(String[] args) {
+        static final Logger logger = Logger.getLogger(UseCase4.class);
+        public static void main(String[] args) {
+            logger.info("------------------------------------------running usecase 1------------------------------------------------------");
+
             SparkSession spark = SparkSession.builder().master("local").getOrCreate();
+
+            logger.info("------------------------------------------spark session created--------------------------------------------------");
+
             String ordersPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\orders\\part-00000";
             String order_itemsPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\order_items\\part-00000";
             String productsPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\products\\part-00000";

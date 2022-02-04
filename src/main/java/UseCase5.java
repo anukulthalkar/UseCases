@@ -1,3 +1,4 @@
+import org.apache.log4j.Logger;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -11,8 +12,14 @@ Get the products for each department.
  * Output should contain all the fields from department and the product count as product_count
  */
 public class UseCase5 {
+    static final Logger logger = Logger.getLogger(UseCase5.class);
     public static void main(String[] args) {
+        logger.info("------------------------------------------running usecase 1------------------------------------------------------");
+
         SparkSession spark = SparkSession.builder().master("local").getOrCreate();
+
+        logger.info("------------------------------------------spark session created--------------------------------------------------");
+
         String departmentsPath = "C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\departments\\part-00000";
         String categoriesPath = "C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\categories\\part-00000";
         String productsPath = "C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\products\\part-00000";

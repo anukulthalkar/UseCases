@@ -1,7 +1,8 @@
-
+import org.apache.log4j.Logger;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+
 
 import static org.apache.spark.sql.functions.*;
 
@@ -13,9 +14,14 @@ Get order count per customer for the month of 2014 January.
  */
 
 public class UseCase1 {
+    static final Logger logger = Logger.getLogger(UseCase1.class);
     public static void main(String[] args){
+        logger.info("------------------------------------------running usecase 1------------------------------------------------------");
 
         SparkSession spark = SparkSession.builder().master("local").getOrCreate();
+
+        logger.info("------------------------------------------spark session created--------------------------------------------------");
+
         String ordersPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\orders\\part-00000";
         String customersPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\customers\\part-00000";
         Dataset<Row> orders = spark.read().format("csv").option("header",true).option("inferSchema",true).load(ordersPath);
