@@ -14,8 +14,9 @@ Get order count per customer for the month of 2014 January.
  */
 
 public class UseCase1 {
+    static long a = 0;
     static final Logger logger = Logger.getLogger(UseCase1.class);
-    public static void main(String[] args){
+    public static void main(String args){
         logger.info("------------------------------------------running usecase 1------------------------------------------------------");
 
         SparkSession spark = SparkSession.builder().master("local").getOrCreate();
@@ -35,7 +36,9 @@ public class UseCase1 {
                 orderBy(col("customer_order_count").desc(),customers.col("customer_id"));
         //orders.show();
         //customers.show();
+        a = result.count();
         result.show();
+        System.out.println(a);
         //orders.printSchema();
         //customers.printSchema();
         result.coalesce(1).write().option("header",true).mode("overwrite").csv("C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\outputs\\UseCase1");
