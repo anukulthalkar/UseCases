@@ -12,7 +12,16 @@ Get the products for each department.
  * Output should contain all the fields from department and the product count as product_count
  */
 public class UseCase5 {
+    static long count = 0;
     static final Logger logger = Logger.getLogger(UseCase5.class);
+    public static boolean validateResult(long count){
+        if (count == 6){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     public static void main(String[] args) {
         logger.info("------------------------------------------running UseCase 5------------------------------------------------------");
 
@@ -37,6 +46,14 @@ public class UseCase5 {
                 agg(count(products.col("product_category_id"))).
                 orderBy(join1.col("department_id"));
         result.show(100);
+        count = result.count();
+        if(validateResult(count)){
+            logger.info("----------------------------------------count matched-----------------------------------------------");
+            result.show();
+        }
+        else {
+            logger.error("-----------------------------------count not matched-----------------------------------------------");
+        }
         logger.info("------------------------------------------Write Result-----------------------------------------------------------");
 
         result.coalesce(1).write().option("header",true).mode("overwrite").csv("C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\outputs\\UseCase5");

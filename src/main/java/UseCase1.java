@@ -64,7 +64,7 @@ public class UseCase1 {
         //b=orders.count();
         count = result.count();
         if(validateResult(count)){
-            logger.info("---------------count matched-------------------------------");
+            logger.info("---------------count matched--------------------------------");
             result.show();
         }
         else {

@@ -14,7 +14,16 @@ Get the revenue generated for each category for the month of 2014 January
 * Consider only COMPLETE and CLOSED orders
 */
 public class UseCase4 {
+        static long count = 0;
         static final Logger logger = Logger.getLogger(UseCase4.class);
+    public static boolean validateResult(long count){
+        if (count == 33){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
         public static void main(String[] args) {
             logger.info("------------------------------------------running UseCase 4------------------------------------------------------");
 
@@ -47,6 +56,14 @@ public class UseCase4 {
                     orderBy(categories.col("category_id"));
 
             result.show(100);
+            count = result.count();
+            if(validateResult(count)){
+                logger.info("----------------------------------------count matched-----------------------------------------------");
+                result.show();
+            }
+            else {
+                logger.error("-----------------------------------count not matched-----------------------------------------------");
+            }
 
             logger.info("------------------------------------------Write Result-----------------------------------------------------------");
 

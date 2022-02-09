@@ -11,7 +11,7 @@ import org.junit.Test;
             String ordersPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\orders\\part-00000";
             Dataset<Row> orders = spark.read().format("csv").option("header",true).option("inferSchema",true).load(ordersPath);
             long count=orders.count();
-            Assert.assertTrue(UseCase2.validateOrders(68883));
+            Assert.assertTrue(UseCase2.validateOrders(count));
         }
 
         @Test
@@ -20,7 +20,7 @@ import org.junit.Test;
             String customersPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\customers\\part-00000";
             Dataset<Row> customers =spark.read().format("csv").option("header",true).option("inferSchema",true).load(customersPath);
             long count=customers.count();
-            Assert.assertTrue(UseCase2.validateCustomers(12435));
+            Assert.assertTrue(UseCase2.validateCustomers(count));
         }
 
         @Test
