@@ -14,26 +14,16 @@ Get order count per customer for the month of 2014 January.
 public class UseCase1 {
     static long count = 0;
     static final Logger logger = Logger.getLogger(UseCase1.class);
-
-    public static boolean validateOrders(long count){
-        if (count == 68883){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    public static boolean validateCustomers(long count){
-        if (count == 12435){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     public static boolean validateResult(long count){
         if (count == 4696){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    public static boolean validateOrders(long count){
+        if (count == 68883){
             return true;
         }
         else {
@@ -64,11 +54,8 @@ public class UseCase1 {
         //b=orders.count();
         count = result.count();
         if(validateResult(count)){
-            logger.info("---------------count matched--------------------------------");
+            logger.info("---------------count matched-------------------------------");
             result.show();
-        }
-        else {
-            logger.error("---------------count not matched---------------------------");
         }
         //orders.printSchema();
         //customers.printSchema();
