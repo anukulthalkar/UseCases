@@ -14,7 +14,7 @@ Get the products for each department.
 public class UseCase5 {
     static final Logger logger = Logger.getLogger(UseCase5.class);
     public static void main(String[] args) {
-        logger.info("------------------------------------------running usecase 1------------------------------------------------------");
+        logger.info("------------------------------------------running UseCase 5------------------------------------------------------");
 
         SparkSession spark = SparkSession.builder().master("local").getOrCreate();
 
@@ -37,7 +37,11 @@ public class UseCase5 {
                 agg(count(products.col("product_category_id"))).
                 orderBy(join1.col("department_id"));
         result.show(100);
+        logger.info("------------------------------------------Write Result-----------------------------------------------------------");
+
         result.coalesce(1).write().option("header",true).mode("overwrite").csv("C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\outputs\\UseCase5");
+
+        logger.info("--------------------------------------------Completed------------------------------------------------------------");
 
     }
 }

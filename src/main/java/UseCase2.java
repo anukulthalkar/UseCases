@@ -13,9 +13,38 @@ Get the customer details who have not placed any order for the month of 2014 Jan
  */
 
 public class UseCase2 {
+
     static final Logger logger = Logger.getLogger(UseCase2.class);
+
+    public static boolean validateOrders(long count){
+        if (count == 68883){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public static boolean validateCustomers(long count){
+        if (count == 12435){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public static boolean validateResult(long count){
+        if (count == 0){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public static void main(String[] args){
-        logger.info("------------------------------------------running usecase 1------------------------------------------------------");
+        logger.info("------------------------------------------running UseCase 2------------------------------------------------------");
 
         SparkSession spark = SparkSession.builder().master("local").getOrCreate();
 
@@ -32,7 +61,11 @@ public class UseCase2 {
         orders.show();
         customers.show();
         result.show();
+        logger.info("------------------------------------------Write Result--------------------------------------------------");
+
         result.coalesce(1).write().option("header",true).mode("overwrite").csv("C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\outputs\\UseCase2");
+
+        logger.info("--------------------------------------------Completed---------------------------------------------------");
 
     }
 }

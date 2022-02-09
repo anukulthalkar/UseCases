@@ -16,7 +16,7 @@ Get the revenue generated for each category for the month of 2014 January
 public class UseCase4 {
         static final Logger logger = Logger.getLogger(UseCase4.class);
         public static void main(String[] args) {
-            logger.info("------------------------------------------running usecase 1------------------------------------------------------");
+            logger.info("------------------------------------------running UseCase 4------------------------------------------------------");
 
             SparkSession spark = SparkSession.builder().master("local").getOrCreate();
 
@@ -47,7 +47,14 @@ public class UseCase4 {
                     orderBy(categories.col("category_id"));
 
             result.show(100);
+
+            logger.info("------------------------------------------Write Result-----------------------------------------------------------");
+
             result.coalesce(1).write().option("header",true).mode("overwrite").csv("C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\outputs\\UseCase4");
-    }
+
+            logger.info("--------------------------------------------Completed------------------------------------------------------------");
+
+
+        }
 
 }

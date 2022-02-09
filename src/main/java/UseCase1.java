@@ -2,8 +2,6 @@ import org.apache.log4j.Logger;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-
-
 import static org.apache.spark.sql.functions.*;
 
 /*
@@ -14,10 +12,37 @@ Get order count per customer for the month of 2014 January.
  */
 
 public class UseCase1 {
-    static long a = 0;
+    static long count = 0;
     static final Logger logger = Logger.getLogger(UseCase1.class);
-    public static void main(String args){
-        logger.info("------------------------------------------running usecase 1------------------------------------------------------");
+
+    public static boolean validateOrders(long count){
+        if (count == 68883){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    public static boolean validateCustomers(long count){
+        if (count == 12435){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public static boolean validateResult(long count){
+        if (count == 4696){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public static void main(String[] args){
+        logger.info("------------------------------------------running UseCase 1------------------------------------------------------");
 
         SparkSession spark = SparkSession.builder().master("local").getOrCreate();
 
@@ -36,12 +61,24 @@ public class UseCase1 {
                 orderBy(col("customer_order_count").desc(),customers.col("customer_id"));
         //orders.show();
         //customers.show();
-        a = result.count();
-        result.show();
-        System.out.println(a);
+        //b=orders.count();
+        count = result.count();
+        if(validateResult(count)){
+            logger.info("---------------count matched-------------------------------");
+            result.show();
+        }
+        else {
+            logger.error("---------------count not matched---------------------------");
+        }
         //orders.printSchema();
         //customers.printSchema();
+
+        logger.info("------------------------------------------Write Result---------------------------------------------------------------");
+
         result.coalesce(1).write().option("header",true).mode("overwrite").csv("C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\outputs\\UseCase1");
 
-         }
+        logger.info("--------------------------------------------Completed----------------------------------------------------------------");
+
+
+    }
 }
