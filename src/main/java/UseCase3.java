@@ -21,11 +21,13 @@ public class UseCase3 {
         Dataset<Row> orders = util.getSparkSession().read().format("csv").option("header", true).option("inferSchema", true).load(ordersPath);
         return orders;
     }
+
     public static Dataset<Row> getCustomers() {
         String customersPath = "C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\customers\\part-00000";
         Dataset<Row> customers = util.getSparkSession().read().format("csv").option("header", true).option("inferSchema", true).load(customersPath);
         return customers;
     }
+
     public static Dataset<Row> getOrder_items() {
         String order_itemsPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\order_items\\part-00000";
         Dataset<Row>order_items=util.getSparkSession().read().format("csv").option("header",true).option("inferschema",true).load(order_itemsPath);
@@ -40,8 +42,8 @@ public class UseCase3 {
         Dataset<Row>result=join1.join(order_items, join1.col("order_id").equalTo(order_items.col("order_item_order_id"))).
                 where(orders.col("order_date").like("2014-01%").and(join1.col("order_status").isin("COMPLETE","CLOSED"))).
                 groupBy(join1.col("customer_id"),
-                        join1.col("customer_fname"),
-                        join1.col("customer_lname")).
+                        join1.col("customer_fname").alias("customer_first_name"),
+                        join1.col("customer_lname").alias("customer_last_name")).
                 agg(coalesce(round(sum(order_items.col("order_item_subtotal")),2),lit(0)).alias("customer_revenue")).
                 orderBy(col("customer_revenue").desc(),join1.col("customer_id"));
         return result;
@@ -69,6 +71,7 @@ public class UseCase3 {
     }
 
     public static void main(String[] args){
+
         logger.info("------------------------------------------running UseCase 3------------------------------------------------------");
 
         SparkSession spark = SparkSession.builder().master("local").getOrCreate();

@@ -12,7 +12,9 @@ Get the revenue generated for each category for the month of 2014 January
 * Consider only COMPLETE and CLOSED orders
 */
 public class UseCase4 {
-        static final Logger logger = Logger.getLogger(UseCase4.class);
+
+    static final Logger logger = Logger.getLogger(UseCase4.class);
+
     public static Dataset<Row> getOrders() {
         String ordersPath = "C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\orders\\part-00000";
         Dataset<Row> orders = util.getSparkSession().read().format("csv").option("header", true).option("inferSchema", true).load(ordersPath);
@@ -81,6 +83,7 @@ public class UseCase4 {
         return resultCount;
     }
         public static void main(String[] args) {
+
             logger.info("------------------------------------------running UseCase 4------------------------------------------------------");
 
             getOrders().show();

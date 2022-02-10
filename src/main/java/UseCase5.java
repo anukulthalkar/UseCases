@@ -10,6 +10,7 @@ Get the products for each department.
  * Data should be sorted in ascending order by department_id
  * Output should contain all the fields from department and the product count as product_count
  */
+
 public class UseCase5 {
 
     static final Logger logger = Logger.getLogger(UseCase5.class);
@@ -65,6 +66,7 @@ public class UseCase5 {
         return resultCount;
     }
     public static void main(String[] args) {
+
         logger.info("------------------------------------------running UseCase 5------------------------------------------------------");
 
         SparkSession spark = SparkSession.builder().master("local").getOrCreate();

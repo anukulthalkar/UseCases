@@ -19,6 +19,7 @@ public class UseCase1 {
         Dataset<Row> orders = util.getSparkSession().read().format("csv").option("header", true).option("inferSchema", true).load(ordersPath);
         return orders;
     }
+
     public static Dataset<Row> getCustomers() {
         String customersPath = "C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\customers\\part-00000";
         Dataset<Row> customers = util.getSparkSession().read().format("csv").option("header", true).option("inferSchema", true).load(customersPath);
@@ -53,20 +54,23 @@ public class UseCase1 {
         long resultCount = getUseCase1Result().count();
         return resultCount;
     }
+
     public static void main(String[] args){
+
         logger.info("------------------------------------------running UseCase 1------------------------------------------------------");
+
         getOrders().show();
         getOrders().printSchema();
         getCustomers().show();
         getCustomers().printSchema();
         getUseCase1Result().show();
         getUseCase1Result().printSchema();
+
         logger.info("------------------------------------------Write Result---------------------------------------------------------------");
 
         getUseCase1Result().coalesce(1).write().option("header",true).mode("overwrite").csv("C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\outputs\\UseCase1");
 
         logger.info("--------------------------------------------Completed----------------------------------------------------------------");
-
 
     }
 }
