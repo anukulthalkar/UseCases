@@ -14,7 +14,7 @@ public class UseCase2Test {
 
     @Test
     public void validateResult(){
-        Assert.assertEquals(0,UseCase2.getResultCount());
+        Assert.assertEquals(0,UseCase2.getUseCase2ResultCount());
     }
 
 }
