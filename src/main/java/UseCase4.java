@@ -13,51 +13,35 @@ Get the revenue generated for each category for the month of 2014 January
 */
 public class UseCase4 {
         static final Logger logger = Logger.getLogger(UseCase4.class);
-    public static long getOrdersCount(){
-        SparkSession spark = SparkSession.builder().master("local").getOrCreate();
-        String ordersPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\orders\\part-00000";
-        Dataset<Row> orders = spark.read().format("csv").option("header",true).option("inferSchema",true).load(ordersPath);
-        long ordersCount = orders.count();
-        return ordersCount;
-
+    public static Dataset<Row> getOrders() {
+        String ordersPath = "C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\orders\\part-00000";
+        Dataset<Row> orders = util.getSparkSession().read().format("csv").option("header", true).option("inferSchema", true).load(ordersPath);
+        return orders;
     }
 
-    public static long getOrder_itemsCount() {
-        SparkSession spark = SparkSession.builder().master("local").getOrCreate();
+    public static Dataset<Row> getOrder_items() {
         String order_itemsPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\order_items\\part-00000";
-        Dataset<Row>order_items=spark.read().format("csv").option("header",true).option("inferschema",true).load(order_itemsPath);
-        long order_itemsCount = order_items.count();
-        return order_itemsCount;
+        Dataset<Row>order_items=util.getSparkSession().read().format("csv").option("header",true).option("inferschema",true).load(order_itemsPath);
+        return order_items;
     }
 
-    public static long getProductsCount() {
-        SparkSession spark = SparkSession.builder().master("local").getOrCreate();
+    public static Dataset<Row> getProducts() {
         String productsPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\products\\part-00000";
-        Dataset<Row>products=spark.read().format("csv").option("header",true).option("inferschema",true).load(productsPath);
-        long productsCount = products.count();
-        return productsCount;
+        Dataset<Row>products=util.getSparkSession().read().format("csv").option("header",true).option("inferschema",true).load(productsPath);
+        return products;
     }
 
-    public static long getCategoriesCount() {
-        SparkSession spark = SparkSession.builder().master("local").getOrCreate();
+    public static Dataset<Row> getCategories() {
         String categoriesPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\categories\\part-00000";
-        Dataset<Row>categories=spark.read().format("csv").option("header",true).option("inferschema",true).load(categoriesPath);
-        long categoriesCount = categories.count();
-        return categoriesCount;
+        Dataset<Row>categories=util.getSparkSession().read().format("csv").option("header",true).option("inferschema",true).load(categoriesPath);
+        return categories;
     }
 
-
-
-    public static long getResultCount() {
-        SparkSession spark = SparkSession.builder().master("local").getOrCreate();
-        String ordersPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\orders\\part-00000";
-        String order_itemsPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\order_items\\part-00000";
-        String productsPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\products\\part-00000";
-        String categoriesPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\categories\\part-00000";
-        Dataset<Row> orders=spark.read().format("csv").option("header",true).option("inferschema",true).load(ordersPath);
-        Dataset<Row>order_items=spark.read().format("csv").option("header",true).option("inferschema",true).load(order_itemsPath);
-        Dataset<Row>products=spark.read().format("csv").option("header",true).option("inferschema",true).load(productsPath);
-        Dataset<Row>categories=spark.read().format("csv").option("header",true).option("inferschema",true).load(categoriesPath);
+    public static Dataset<Row> getUseCase4Result() {
+        Dataset<Row> orders = getOrders();
+        Dataset<Row> order_items = getOrder_items();
+        Dataset<Row> products = getProducts();
+        Dataset<Row> categories =getCategories();
         Dataset<Row>join1=orders.join(order_items, orders.col("order_id").equalTo(order_items.col("order_item_order_id")));
         Dataset<Row>join2=products.join(join1, products.col("product_id").equalTo(join1.col("order_item_product_id")));
         Dataset<Row>result=join2.join(categories, join2.col("product_category_id").equalTo(categories.col("category_id"))).
@@ -67,44 +51,52 @@ public class UseCase4 {
                         categories.col("category_name")).
                 agg(round(sum(join2.col("order_item_subtotal")),2).alias("category_revenue")).
                 orderBy(categories.col("category_id"));
-        long resultCount = result.count();
+        return result;
+    }
+
+    public static long getOrdersCount(){
+        long ordersCount = getOrders().count();
+        return ordersCount;
+
+    }
+
+    public static long getOrder_itemsCount() {
+       long order_itemsCount = getOrder_items().count();
+        return order_itemsCount;
+    }
+
+    public static long getProductsCount() {
+        long productsCount = getProducts().count();
+        return productsCount;
+    }
+
+    public static long getCategoriesCount() {
+        long categoriesCount = getCategories().count();
+        return categoriesCount;
+    }
+
+    public static long getResultCount() {
+
+        long resultCount = getUseCase4Result().count();
         return resultCount;
     }
         public static void main(String[] args) {
             logger.info("------------------------------------------running UseCase 4------------------------------------------------------");
 
-            SparkSession spark = SparkSession.builder().master("local").getOrCreate();
+            getOrders().show();
+            getOrders().printSchema();
+            getOrder_items().show();
+            getOrder_items().printSchema();
+            getProducts().show();
+            getProducts().printSchema();
+            getCategories().show();
+            getCategories().printSchema();
+            getUseCase4Result().show();
+            getUseCase4Result().printSchema();
 
-            logger.info("------------------------------------------spark session created--------------------------------------------------");
-
-            String ordersPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\orders\\part-00000";
-            String order_itemsPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\order_items\\part-00000";
-            String productsPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\products\\part-00000";
-            String categoriesPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\categories\\part-00000";
-            Dataset<Row> orders=spark.read().format("csv").option("header",true).option("inferschema",true).load(ordersPath);
-            Dataset<Row>order_items=spark.read().format("csv").option("header",true).option("inferschema",true).load(order_itemsPath);
-            Dataset<Row>products=spark.read().format("csv").option("header",true).option("inferschema",true).load(productsPath);
-            Dataset<Row>categories=spark.read().format("csv").option("header",true).option("inferschema",true).load(categoriesPath);
-            orders.show();
-            order_items.show();
-            products.show();
-            categories.show();
-            Dataset<Row>join1=orders.join(order_items, orders.col("order_id").equalTo(order_items.col("order_item_order_id")));
-            join1.show();
-            Dataset<Row>join2=products.join(join1, products.col("product_id").equalTo(join1.col("order_item_product_id")));
-            join2.show();
-            Dataset<Row>result=join2.join(categories, join2.col("product_category_id").equalTo(categories.col("category_id"))).
-                    where(orders.col("order_date").like("2014-01%").and(join2.col("order_status").isin("COMPLETE","CLOSED"))).
-                    groupBy(categories.col("category_id"),
-                            categories.col("category_department_id"),
-                            categories.col("category_name")).
-                    agg(round(sum(join2.col("order_item_subtotal")),2).alias("category_revenue")).
-                    orderBy(categories.col("category_id"));
-
-            result.show(100);
             logger.info("------------------------------------------Write Result-----------------------------------------------------------");
 
-            result.coalesce(1).write().option("header",true).mode("overwrite").csv("C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\outputs\\UseCase4");
+            getUseCase4Result().coalesce(1).write().option("header",true).mode("overwrite").csv("C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\outputs\\UseCase4");
 
             logger.info("--------------------------------------------Completed------------------------------------------------------------");
 
