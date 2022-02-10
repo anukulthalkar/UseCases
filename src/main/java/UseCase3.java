@@ -57,8 +57,8 @@ public class UseCase3 {
                         join1.col("customer_lname")).
                 agg(coalesce(round(sum(order_items.col("order_item_subtotal")),2),lit(0)).alias("customer_revenue")).
                 orderBy(col("customer_revenue").desc(),join1.col("customer_id"));
-        long Result = result.count();
-        return Result;
+        long resultCount = result.count();
+        return resultCount;
     }
 
     public static void main(String[] args){

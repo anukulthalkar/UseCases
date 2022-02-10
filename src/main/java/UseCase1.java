@@ -44,8 +44,8 @@ public class UseCase1 {
                         customers.col("customer_lname")).
                 agg(count(orders.col("order_customer_id")).alias("customer_order_count")).
                 orderBy(col("customer_order_count").desc(),customers.col("customer_id"));
-        long Result = result.count();
-        return Result;
+        long resultCount = result.count();
+        return resultCount;
     }
     public static void main(String[] args){
         logger.info("------------------------------------------running UseCase 1------------------------------------------------------");

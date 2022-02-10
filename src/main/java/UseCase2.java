@@ -20,8 +20,8 @@ public class UseCase2 {
         SparkSession spark = SparkSession.builder().master("local").getOrCreate();
         String ordersPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\orders\\part-00000";
         Dataset<Row> orders = spark.read().format("csv").option("header",true).option("inferSchema",true).load(ordersPath);
-        long ordersCount = orders.count();
-        return ordersCount;
+        long resultCount = orders.count();
+        return resultCount;
 
     }
 
