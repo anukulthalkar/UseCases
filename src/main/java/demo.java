@@ -1,19 +1,18 @@
-
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
-import org.apache.spark.sql.SparkSession;
 public class demo {
-    static  long result;
-    public static long getResult(){
-        SparkSession spark= SparkSession.builder().master("local").getOrCreate();
+
+    public static Dataset<Row> getOrders(){
         String ordersPath = "C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\orders\\part-00000";
-        Dataset<Row> orders=spark.read().format("csv").option("header", true).option("inferSchema",true).load(ordersPath);
-        result=orders.count();
+        Dataset<Row> orders=util.getSparkSession().read().format("csv").option("header", true).option("inferSchema",true).load(ordersPath);
+        return orders;
+    }
+    public static long getcount(){
+        long result=getOrders().count();
         return result;
     }
 
     public static void main(String[] args){
-        getResult();
-        System.out.println(result);
+        getOrders().show();
     }
 }
