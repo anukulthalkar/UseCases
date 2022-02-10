@@ -33,21 +33,6 @@ public class UseCase5 {
         return products;
     }
 
-    public static long getDepartmentsCount() {
-        long departmentsCount = getDepartments().count();
-        return departmentsCount;
-    }
-
-    public static long getCategoriesCount() {
-        long categoriesCount = getCategories().count();
-        return categoriesCount;
-    }
-
-    public static long getProductsCount() {
-        long productsCount = getProducts().count();
-        return productsCount;
-    }
-
     public static Dataset<Row> getUseCase5Result() {
         Dataset<Row> departments =getDepartments();
         Dataset<Row> categories =getCategories();
@@ -61,10 +46,6 @@ public class UseCase5 {
         return result;
     }
 
-    public static long getResultCount() {
-      long resultCount = getUseCase5Result().count();
-        return resultCount;
-    }
     public static void main(String[] args) {
 
         logger.info("------------------------------------------running UseCase 5------------------------------------------------------");

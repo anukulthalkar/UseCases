@@ -56,32 +56,6 @@ public class UseCase4 {
         return result;
     }
 
-    public static long getOrdersCount(){
-        long ordersCount = getOrders().count();
-        return ordersCount;
-
-    }
-
-    public static long getOrder_itemsCount() {
-       long order_itemsCount = getOrder_items().count();
-        return order_itemsCount;
-    }
-
-    public static long getProductsCount() {
-        long productsCount = getProducts().count();
-        return productsCount;
-    }
-
-    public static long getCategoriesCount() {
-        long categoriesCount = getCategories().count();
-        return categoriesCount;
-    }
-
-    public static long getResultCount() {
-
-        long resultCount = getUseCase4Result().count();
-        return resultCount;
-    }
         public static void main(String[] args) {
 
             logger.info("------------------------------------------running UseCase 4------------------------------------------------------");

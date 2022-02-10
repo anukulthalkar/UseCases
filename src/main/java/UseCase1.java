@@ -39,22 +39,6 @@ public class UseCase1 {
      return result;
     }
 
-    public static long getOrdersCount(){
-        long ordersCount = getOrders().count();
-        return ordersCount;
-
-    }
-
-    public static long getCustomersCount() {
-        long customersCount = getCustomers().count();
-        return customersCount;
-    }
-
-    public static long getResultCount() {
-        long resultCount = getUseCase1Result().count();
-        return resultCount;
-    }
-
     public static void main(String[] args){
 
         logger.info("------------------------------------------running UseCase 1------------------------------------------------------");

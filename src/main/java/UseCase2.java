@@ -44,22 +44,6 @@ public class UseCase2 {
         return result;
     }
 
-    public static long getOrdersCount(){
-        long resultCount = getOrders().count();
-        return resultCount;
-
-    }
-
-    public static long getCustomersCount() {
-        long customersCount = getCustomers().count();
-        return customersCount;
-    }
-
-    public static long getUseCase2ResultCount() {
-        long resultCount = getUseCase2Result().count();
-        return resultCount;
-    }
-
     public static void main(String[] args){
         logger.info("------------------------------------------running UseCase 2------------------------------------------------------");
 
@@ -68,7 +52,6 @@ public class UseCase2 {
         UseCase1.getCustomers().show();
         UseCase1.getCustomers().printSchema();
         getUseCase2Result().show();
-        System.out.println(getUseCase2ResultCount());
         getUseCase2Result().printSchema();
 
         logger.info("------------------------------------------Write Result--------------------------------------------------");
