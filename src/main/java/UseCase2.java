@@ -13,34 +13,38 @@ Get the customer details who have not placed any order for the month of 2014 Jan
  */
 
 public class UseCase2 {
-    static long count = 0;
+
     static final Logger logger = Logger.getLogger(UseCase2.class);
 
-    public static boolean validateOrders(long count){
-        if (count == 68883){
-            return true;
-        }
-        else {
-            return false;
-        }
+    public static long getOrdersCount(){
+        SparkSession spark = SparkSession.builder().master("local").getOrCreate();
+        String ordersPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\orders\\part-00000";
+        Dataset<Row> orders = spark.read().format("csv").option("header",true).option("inferSchema",true).load(ordersPath);
+        long ordersCount = orders.count();
+        return ordersCount;
+
     }
 
-    public static boolean validateCustomers(long count){
-        if (count == 12435){
-            return true;
-        }
-        else {
-            return false;
-        }
+    public static long getCustomersCount() {
+        SparkSession spark = SparkSession.builder().master("local").getOrCreate();
+        String customersPath = "C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\customers\\part-00000";
+        Dataset<Row> customers = spark.read().format("csv").option("header", true).option("inferSchema", true).load(customersPath);
+        long customersCount = customers.count();
+        return customersCount;
     }
 
-    public static boolean validateResult(long count){
-        if (count == 0){
-            return true;
-        }
-        else {
-            return false;
-        }
+    public static long getResultCount() {
+        SparkSession spark = SparkSession.builder().master("local").getOrCreate();
+        String ordersPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\orders\\part-00000";
+        String customersPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\customers\\part-00000";
+        Dataset<Row> orders = spark.read().format("csv").option("header",true).option("inferSchema",true).load(ordersPath);
+        Dataset<Row> customers =spark.read().format("csv").option("header",true).option("inferSchema",true).load(customersPath);
+        Dataset<Row> result = orders.join(customers, orders.col("order_customer_id").equalTo(customers.col("customer_id")),"right_outer").
+                where(orders.col("order_date").like("2014-01%").and(orders.col("order_id").isNull())).
+                select(customers.col("*")).
+                orderBy(customers.col("customer_id"));
+        long Result = result.count();
+        return Result;
     }
 
     public static void main(String[] args){
@@ -61,14 +65,7 @@ public class UseCase2 {
         orders.show();
         customers.show();
         result.show();
-        count = result.count();
-        if(validateResult(count)){
-            logger.info("----------------------------------------count matched-----------------------------------------------");
-            result.show();
-        }
-        else {
-            logger.error("-----------------------------------count not matched-----------------------------------------------");
-        }
+
         logger.info("------------------------------------------Write Result--------------------------------------------------");
 
         result.coalesce(1).write().option("header",true).mode("overwrite").csv("C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\outputs\\UseCase2");

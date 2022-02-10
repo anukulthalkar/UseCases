@@ -12,29 +12,26 @@ Get order count per customer for the month of 2014 January.
  */
 
 public class UseCase1 {
-    static long ordersCount = 0;
-    static long customersCount = 0;
-    static long Result = 0;
 
     static final Logger logger = Logger.getLogger(UseCase1.class);
-    public static long validateOrders(){
+    public static long getOrdersCount(){
         SparkSession spark = SparkSession.builder().master("local").getOrCreate();
         String ordersPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\orders\\part-00000";
         Dataset<Row> orders = spark.read().format("csv").option("header",true).option("inferSchema",true).load(ordersPath);
-        ordersCount = orders.count();
+        long ordersCount = orders.count();
         return ordersCount;
 
     }
 
-    public static long validateCustomers() {
+    public static long getCustomersCount() {
         SparkSession spark = SparkSession.builder().master("local").getOrCreate();
         String customersPath = "C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\customers\\part-00000";
         Dataset<Row> customers = spark.read().format("csv").option("header", true).option("inferSchema", true).load(customersPath);
-        customersCount = customers.count();
+        long customersCount = customers.count();
         return customersCount;
     }
 
-    public static long validateResult() {
+    public static long getResultCount() {
         SparkSession spark = SparkSession.builder().master("local").getOrCreate();
         String ordersPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\orders\\part-00000";
         String customersPath="C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\customers\\part-00000";
@@ -47,7 +44,7 @@ public class UseCase1 {
                         customers.col("customer_lname")).
                 agg(count(orders.col("order_customer_id")).alias("customer_order_count")).
                 orderBy(col("customer_order_count").desc(),customers.col("customer_id"));
-        Result = result.count();
+        long Result = result.count();
         return Result;
     }
     public static void main(String[] args){
