@@ -30,16 +30,8 @@ public class UseCase2 {
         Dataset<Row> orders = getOrders();
         Dataset<Row> customers = getCustomers();
         Dataset<Row> result = orders.join(customers, orders.col("order_customer_id").equalTo(customers.col("customer_id")), "right_outer").
-                where(orders.col("order_date").like("2014-01%").and(orders.col("order_id").isNull())).
-                select(customers.col("customer_id"),
-                        customers.col("customer_fname"),
-                        customers.col("customer_lname"),
-                        customers.col("customer_email"),
-                        customers.col("customer_password"),
-                        customers.col("customer_street"),
-                        customers.col("customer_city"),
-                        customers.col("customer_state"),
-                        customers.col("customer_zipcode")).
+                where(orders.col("order_date").like("2014-01%").and(orders.col("order_customer_id").isNull())).
+                select(customers.col("*")).
                 orderBy(customers.col("customer_id"));
         return result;
     }
