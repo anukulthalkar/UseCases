@@ -65,11 +65,10 @@ public class UseCase1 {
                         customers.col("customer_lname")).
                 agg(count(orders.col("order_customer_id")).alias("customer_order_count")).
                 orderBy(col("customer_order_count").desc(),customers.col("customer_id"));
-        //orders.show();
-        //customers.show();
-        //b=orders.count();
-        //orders.printSchema();
-        //customers.printSchema();
+        orders.show();
+        customers.show();
+        orders.printSchema();
+        customers.printSchema();
         result.show();
         logger.info("------------------------------------------Write Result---------------------------------------------------------------");
 
