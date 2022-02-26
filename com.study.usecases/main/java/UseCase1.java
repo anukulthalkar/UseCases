@@ -16,13 +16,17 @@ public class UseCase1 {
     public final static String NEW_FILE = "new";
 
     public static Dataset<Row> getOrders() {
-        String ordersPath = "C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\orders\\part-00000";
+    public static String ORDER_CUSTOMER_ID= "order_customer_id";
+    public static String ORDER_PATH = "C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\orders\\part-00000";
+
+    public static Dataset<Row> getOrders() {
+        String ordersPath = ORDER_PATH;
         Dataset<Row> orders = util.getSparkSession().read().format("csv").option("header", true).option("inferSchema", true).load(ordersPath);
         return orders;
     }
 
     public static Dataset<Row> getCustomers() {
-        String customersPath = "C:\\Users\\Anukul Thalkar\\IdeaProjects\\UseCases\\src\\main\\resources\\retail_db\\customers\\part-00000";
+        String customersPath = ORDER_PATH;
         Dataset<Row> customers = util.getSparkSession().read().format("csv").option("header", true).option("inferSchema", true).load(customersPath);
         return customers;
     }
@@ -30,7 +34,7 @@ public class UseCase1 {
     public static Dataset<Row> getUseCase1Result(){
         Dataset<Row> orders = getOrders();
         Dataset<Row> customers = getCustomers();
-     Dataset<Row> result = orders.join(customers, orders.col("order_customer_id").equalTo(customers.col("customer_id"))).
+     Dataset<Row> result = orders.join(customers, orders.col(ORDER_CUSTOMER_ID).equalTo(customers.col("customer_id"))).
                 where(orders.col("order_date").like("2014-01%")).
                 groupBy(customers.col("customer_id"),
                         customers.col("customer_fname"),
